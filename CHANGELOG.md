@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.2.0] - 2026-04-14
+
+### Added
+
+- Caveman mode: configurable compressed output for PRDs, OpenSpec, and Beads tasks (on by default)
+- `speq config` command to get/set caveman mode settings
+- `speq init` includes default caveman config in CLAUDE.md speq block
+- Compressed PRD generates both `prd-<name>.md` (terse) and `prd-<name>.readable.md` (verbose sidecar)
+- Lazy codebase scanning in `/requirements` and `/enrich` — lightweight scan first, deeper on demand
+- Programmatic API: `readConfig()`, `writeConfig()`, `formatConfig()`, `getValidKeys()`
+
 ## [0.1.0] - 2026-04-14
 
 ### Added

@@ -14,6 +14,23 @@ Initialise speq in the current project.
 - `0` — success
 - `1` — `bd` not found or `bd init` failed
 
+### `speq config [key] [value]`
+
+Get or set caveman mode settings. Settings are stored in the `<!-- BEGIN SPEQ -->` block of CLAUDE.md.
+
+**Usage:**
+- `speq config` — display all settings
+- `speq config caveman.prd` — display a single setting
+- `speq config caveman.prd off` — set a single setting
+- `speq config caveman --all on` — set all settings at once
+
+**Valid keys:** `caveman.prd`, `caveman.openspec`, `caveman.beads`
+**Valid values:** `on`, `off`
+
+**Exit codes:**
+- `0` — success
+- `1` — invalid key/value, CLAUDE.md missing, or speq block missing
+
 ### `speq requirements`
 
 Gather requirements via a Working Backwards conversation grounded in the codebase. Delegates to `claude --prompt-file .claude/commands/requirements.md`.
@@ -114,3 +131,25 @@ Check if a phase name is valid.
 ### `getPhasesFrom(fromPhase: Phase): Phase[]`
 
 Get phases to execute starting from a given phase.
+
+### `readConfig(projectDir: string): CavemanConfig | null`
+
+Read caveman mode settings from the speq block in CLAUDE.md.
+
+### `writeConfig(projectDir: string, key: string, value: string): { ok: boolean; message: string }`
+
+Write a caveman mode setting to the speq block in CLAUDE.md.
+
+### `formatConfig(config: CavemanConfig): string`
+
+Format all config settings for display.
+
+### `CavemanConfig`
+
+```typescript
+interface CavemanConfig {
+  prd: "on" | "off";
+  openspec: "on" | "off";
+  beads: "on" | "off";
+}
+```

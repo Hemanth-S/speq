@@ -10,6 +10,7 @@ export interface RunResult {
 
 const COMMANDS = [
   "init",
+  "config",
   "requirements",
   "enrich",
   "spec",
@@ -65,6 +66,7 @@ Usage: speq <command> [options]
 
 Commands:
   init           Initialise speq in the current project
+  config         Get or set caveman mode settings
   requirements   Gather requirements via Working Backwards conversation
   enrich         Ground an existing PRD in the codebase
   spec           Convert a PRD into OpenSpec files

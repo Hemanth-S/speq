@@ -2,6 +2,7 @@
 
 import { run } from "./cli.js";
 import { init } from "./init.js";
+import { readConfig, writeConfig, formatConfig, getValidKeys } from "./config.js";
 import { runCommand, getPromptFilePath } from "./runner.js";
 import { isValidPhase, getPhasesFrom, detectState } from "./resume.js";
 import { existsSync } from "node:fs";
@@ -25,6 +26,67 @@ async function main(): Promise<void> {
     if (result.stdout) process.stdout.write(result.stdout + "\n");
     if (result.stderr) process.stderr.write(result.stderr + "\n");
     process.exit(result.exitCode);
+  }
+
+  // speq config [key] [value]
+  if (command === "config") {
+    const configArgs = args.slice(1);
+
+    // speq config caveman --all <value>
+    if (configArgs[0] === "caveman" && configArgs[1] === "--all") {
+      const value = configArgs[2];
+      if (!value) {
+        process.stderr.write("Usage: speq config caveman --all <on|off>\n");
+        process.exit(1);
+      }
+      for (const key of getValidKeys()) {
+        const result = writeConfig(process.cwd(), key, value);
+        if (!result.ok) {
+          process.stderr.write(result.message + "\n");
+          process.exit(1);
+        }
+      }
+      console.log(`Set all caveman settings to: ${value}`);
+      process.exit(0);
+    }
+
+    // speq config <key> <value> — set
+    if (configArgs.length === 2) {
+      const result = writeConfig(process.cwd(), configArgs[0], configArgs[1]);
+      if (!result.ok) {
+        process.stderr.write(result.message + "\n");
+        process.exit(1);
+      }
+      console.log(result.message);
+      process.exit(0);
+    }
+
+    // speq config <key> — get single
+    if (configArgs.length === 1) {
+      const config = readConfig(process.cwd());
+      if (!config) {
+        process.stderr.write("CLAUDE.md not found or speq block missing. Run `speq init` first.\n");
+        process.exit(1);
+      }
+      const key = configArgs[0];
+      const field = key.replace("caveman.", "") as keyof typeof config;
+      if (field in config) {
+        console.log(`${key}: ${config[field]}`);
+      } else {
+        process.stderr.write(`Unknown setting: ${key}. Valid: ${getValidKeys().join(", ")}\n`);
+        process.exit(1);
+      }
+      process.exit(0);
+    }
+
+    // speq config — show all
+    const config = readConfig(process.cwd());
+    if (!config) {
+      process.stderr.write("CLAUDE.md not found or speq block missing. Run `speq init` first.\n");
+      process.exit(1);
+    }
+    console.log(formatConfig(config));
+    process.exit(0);
   }
 
   // speq init

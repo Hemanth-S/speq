@@ -5,6 +5,15 @@ description: Convert a PRD file into OpenSpec files — one per capability — w
 You are generating OpenSpec specification files from a PRD.
 Follow every step in order.
 
+## Step 0 — Read caveman mode config
+
+Read the `<!-- BEGIN SPEQ -->` block in CLAUDE.md. Look for:
+  caveman.openspec: on|off
+
+If CLAUDE.md is missing or has no caveman config, default to: caveman.openspec: on
+
+Remember this setting — you will use it in Step 3.
+
 ## Step 1 — Read inputs
 
 Locate the PRD file. Check in this order:
@@ -66,9 +75,46 @@ Integration section of the PRD wherever possible. Scenarios must be
 concrete and testable — no vague language like "works correctly" or
 "returns an error".
 
-Use exactly this format for every spec file:
+### If caveman.openspec is ON — use compressed format:
 
----
+```
+# <capability-name> Spec
+
+## Purpose
+[One line.]
+
+## Refs
+- Tables: [names]
+- APIs: [method + path]
+- Reuses: [names + paths]
+- New: [if any]
+
+## Requirements
+
+### Req: <Name>
+SHALL <statement>.
+
+#### P0: <Title>
+- GIVEN: <condition>
+- WHEN: <trigger>
+- THEN: <outcome>, <outcome>, <outcome>
+
+#### P1: <Title>
+- GIVEN: <condition>
+- WHEN: <trigger>
+- THEN: <outcome>, <outcome>
+```
+
+Rules for compressed format:
+- Priority goes in the scenario header, not a separate label
+- Multiple THEN/AND clauses are comma-joined on one THEN line
+- No blank lines between GIVEN/WHEN/THEN
+- Section headers abbreviated: "Refs" not "Codebase references", "Req" not "Requirement"
+- All FR-N IDs, table names, endpoint paths, and clause content preserved exactly
+
+### If caveman.openspec is OFF — use verbose format:
+
+```
 # <capability-name> Specification
 
 ## Purpose
@@ -90,10 +136,7 @@ The system SHALL <concise, testable requirement statement>.
 - WHEN  <specific triggering event>
 - THEN  <exact, measurable expected outcome>
 - AND   <additional outcome if needed>
-
-<!-- Repeat Scenarios per Requirement -->
-<!-- Repeat Requirements per capability -->
----
+```
 
 ## Step 4 — Output summary
 

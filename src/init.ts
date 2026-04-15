@@ -36,6 +36,11 @@ scenario that generated it (see /implement, Step B-3).
 6. All user inputs must be validated before processing.
 7. Secrets come from environment variables only — never hardcoded.
 8. Error responses must not expose stack traces or internal paths to callers.
+
+## Caveman Mode
+caveman.prd: on
+caveman.openspec: on
+caveman.beads: on
 `.trim();
 
 /**

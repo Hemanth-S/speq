@@ -179,4 +179,12 @@ describe("Full init sequence", () => {
     expect(existsSync(join(TEST_DIR, ".claude", "commands"))).toBe(true);
     expect(existsSync(join(TEST_DIR, "CLAUDE.md"))).toBe(true);
   });
+
+  it("includes default caveman config in CLAUDE.md speq block", () => {
+    init(TEST_DIR);
+    const content = readFileSync(join(TEST_DIR, "CLAUDE.md"), "utf-8");
+    expect(content).toContain("caveman.prd: on");
+    expect(content).toContain("caveman.openspec: on");
+    expect(content).toContain("caveman.beads: on");
+  });
 });

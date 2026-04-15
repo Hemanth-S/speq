@@ -6,6 +6,15 @@ You are building a Beads task graph from OpenSpec specs.
 Follow every step in order. Execute bd commands one at a time —
 never chain with && and never write shell scripts.
 
+## Step 0 — Read caveman mode config
+
+Read the `<!-- BEGIN SPEQ -->` block in CLAUDE.md. Look for:
+  caveman.beads: on|off
+
+If CLAUDE.md is missing or has no caveman config, default to: caveman.beads: on
+
+Remember this setting — you will use it in Step 3 and Step 4.
+
 ## Step 1 — Check prerequisites
 
 Run: bd --version
@@ -24,6 +33,27 @@ If not: run bd init and ask the user which mode to use before proceeding:
 Find and fully read every file matching openspec/specs/*/spec.md.
 
 ## Step 3 — Produce a written plan (no bd commands yet)
+
+### If caveman.beads is ON — use compressed naming:
+
+For each spec file, output:
+
+  Epic:      "<capability>: <one-line purpose>"
+
+  Tasks:     one per Requirement — short name (max 60 chars)
+
+  Sub-tasks per Scenario, in this strict order:
+    1. "Test: <scenario>" (max 60 chars)
+    2. "Impl: <scenario>"
+    3. "Verify: <scenario>"
+    4. "Docs: <scenario>"
+    After all scenarios for the Requirement:
+    5. "Refactor"
+
+  Task descriptions: bullet fragments, not sentences. Must include
+  spec file path and scenario title for traceability.
+
+### If caveman.beads is OFF — use verbose naming:
 
 For each spec file, output:
 

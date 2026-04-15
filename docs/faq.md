@@ -93,6 +93,23 @@ working on. The codebase scan will scope to the current directory. If your
 feature spans multiple services, you may need to run speq once per service
 or adjust the scan paths in the requirements/enrich commands.
 
+## What is caveman mode?
+
+Caveman mode compresses the output of PRDs, OpenSpec scenarios, and Beads
+task descriptions to reduce token usage. It's on by default for all three
+artifact types. Configure it with:
+
+```bash
+speq config caveman.prd off       # verbose PRDs only
+speq config caveman.openspec off  # verbose OpenSpec
+speq config caveman.beads off     # verbose Beads tasks
+speq config caveman --all off     # everything verbose
+```
+
+When caveman.prd is on, `/requirements` generates both a compressed
+`prd-<name>.md` (for Claude) and a verbose `prd-<name>.readable.md`
+(for human review).
+
 ## What does speq do if bd commands fail?
 
 If a `bd` command fails (e.g., `bd create` returns an error), the

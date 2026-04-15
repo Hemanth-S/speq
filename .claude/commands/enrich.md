@@ -28,37 +28,29 @@ Read the PRD file fully. While reading, note every place where:
 
 Keep this gap list internally — you will fill every gap in Step 3.
 
-## Step 2 — Scan the codebase
+## Step 2 — Lightweight codebase scan
 
-Run these in sequence:
+Do a **lightweight scan first** — only the file tree and README/CLAUDE.md:
 
   find . -not -path '*/.git/*' -not -path '*/node_modules/*' \
          -not -path '*/__pycache__/*' -not -path '*/dist/*' \
-         -not -path '*/.next/*' | sort | head -120
+         -not -path '*/.next/*' -not -path '*/.beads/*' \
+         -not -path '*/coverage/*' | sort | head -120
 
-Then read:
-  - README.md or readme.md if present
-  - Any CLAUDE.md or AGENTS.md
-  - Schema files: *.sql, schema.prisma, models.py, *.graphql,
-    openapi.yaml, swagger.json, db/migrate/*, alembic/versions/*
-  - Route/API files: routes/*, controllers/*, handlers/*,
-    pages/api/*, app/api/*, server.go, app.py
-  - Top-level service and module files (skip test files)
-  - Environment variable usage:
-      grep -rn "process\.env\|os\.environ\|os\.getenv\|viper\.Get" \
-        --include="*.js" --include="*.ts" --include="*.py" --include="*.go" \
-        . 2>/dev/null | grep -v ".git/" | grep -v "node_modules/" | head -40
-  - Existing auth middleware — find where authentication is enforced
-  - Existing error handling patterns — how errors are returned to callers
+Then read (if they exist):
+  - README.md or readme.md
+  - CLAUDE.md or AGENTS.md
 
-Build an internal map covering:
-  - Language, framework, test runner
-  - All database tables/collections with key columns and types
-  - All existing API endpoints: method, path, auth requirement, purpose
-  - All services/modules and what they own
-  - Auth mechanism, authorization model
-  - Conventions: error handling, validation, logging, test patterns
-  - All environment variables in use
+**Do NOT read schemas, routes, env vars, or service files yet.**
+Pull deeper context on demand in Step 3 when filling specific gaps:
+
+  - **Filling Codebase Integration** → read schema files, route files,
+    service files relevant to the PRD's domain
+  - **Filling NFRs** → check existing performance tests or benchmarks
+  - **Filling Security** → read auth middleware, error handling patterns
+  - **Filling Failure Modes** → identify external dependencies from imports
+
+Do not re-scan artifacts you have already read.
 
 ## Step 3 — Enrich the PRD
 
