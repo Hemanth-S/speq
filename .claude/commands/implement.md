@@ -10,7 +10,7 @@ whether to continue — move automatically to the next ready task.
 ## Entry check
 
 Run: bd list --status open
-If empty: tell the user "All tasks complete. Run /project:verify." and stop.
+If empty: tell the user "All tasks complete. Run /verify." and stop.
 
 ## Main loop
 
@@ -143,8 +143,11 @@ For each Scenario:
         - Example value (never a real secret)
 
     User-facing behaviour changes:
-      Update README.md if the change affects how users interact
-      with the system.
+      - Update README.md if the change affects how users interact
+        with the system
+      - Update docs/install.md if setup or installation steps changed
+      - Update docs/faq.md if new user workflows or edge cases are introduced
+      - Update CONTRIBUTING.md if development or testing procedures changed
 
   Close: bd update <docs-subtask-id> --status done
 
@@ -180,4 +183,4 @@ Go back to Step A. Do not pause, do not ask the user whether to continue.
 
 Keep looping until: bd list --status open returns empty.
 
-When it does: tell the user "All tasks complete. Run /project:verify."
+When it does: tell the user "All tasks complete. Run /verify."

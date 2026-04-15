@@ -3,4 +3,11 @@ node_modules/
 .env
 *.log
 dist/
-.beads/local
+openspec/
+coverage/
+.beads/
+
+# Beads / Dolt files (added by bd init)
+.dolt/
+*.db
+.beads-credential-key

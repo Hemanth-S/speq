@@ -65,6 +65,9 @@ Do not output "SHIP IT" until every applicable gate shows ✅ PASS.
     □ Every new API endpoint appears in docs/api.md
     □ Every new environment variable appears in README.md
     □ CHANGELOG.md has an entry for this feature
+    □ Setup/installation changes reflected in docs/install.md (if applicable)
+    □ New user workflows or edge cases added to docs/faq.md (if applicable)
+    □ Development/testing workflow changes reflected in CONTRIBUTING.md (if applicable)
 
   ✅ PASS: all present
   ❌ FAIL: list exactly what is missing and in which file

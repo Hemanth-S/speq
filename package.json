@@ -1,0 +1,43 @@
+{
+  "name": "speq",
+  "version": "0.1.0",
+  "description": "Spec-driven TDD development workflow for Claude Code",
+  "type": "module",
+  "main": "dist/index.js",
+  "bin": {
+    "speq": "dist/index.js"
+  },
+  "files": [
+    "dist/",
+    ".claude/commands/"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Hemanth-S/speq.git"
+  },
+  "keywords": [
+    "claude",
+    "tdd",
+    "spec",
+    "workflow",
+    "cli"
+  ],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Hemanth-S/speq/issues"
+  },
+  "homepage": "https://github.com/Hemanth-S/speq#readme",
+  "devDependencies": {
+    "@types/node": "^25.6.0",
+    "@vitest/coverage-v8": "^4.1.4",
+    "typescript": "^6.0.2",
+    "vitest": "^4.1.4"
+  }
+}

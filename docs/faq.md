@@ -2,8 +2,8 @@
 
 ## Can I use speq on an existing project with code already written?
 
-Yes — this is the primary use case. The `/project:requirements` and
-`/project:enrich` commands both start by scanning your codebase to
+Yes — this is the primary use case. The `/requirements` and
+`/enrich` commands both start by scanning your codebase to
 understand what already exists. Specs and tasks are generated relative to
 your current code, not from a blank slate. You will not get tasks to
 rebuild things that already work.
@@ -11,9 +11,9 @@ rebuild things that already work.
 ## What if my project does not use Beads / bd?
 
 Beads (`bd`) is the task tracker speq uses to manage the TDD loop. If you
-do not have it installed, the `/project:plan` command will install it for
-you (`npm install -g @beads/bd`). Beads stores tasks locally in a `.beads`
-directory — it does not require a server, account, or API key.
+do not have it installed, run `speq init` or the setup script — both will
+install it. Beads stores tasks locally in a `.beads` directory — it does
+not require a server, account, or API key.
 
 If you prefer a different task tracker, you would need to modify the
 `plan.md`, `implement.md`, `verify.md`, and `done.md` commands to use your
@@ -21,7 +21,7 @@ tool's CLI instead of `bd`.
 
 ## What if I do not have any tests yet?
 
-That is fine. The `/project:implement` command follows strict TDD — it
+That is fine. The `/implement` command follows strict TDD — it
 writes the first test before writing any implementation code. It will
 detect your project's language and framework and use the appropriate test
 runner. If no test configuration exists, it will set one up.
@@ -38,15 +38,43 @@ a greenfield build.
 
 Yes. Every command is independent:
 
-- `/project:requirements` — just gather requirements and write PRD.md
-- `/project:enrich` — just ground an existing PRD in the codebase
-- `/project:spec` — just generate specs from PRD.md
-- `/project:plan` — just create the task graph from specs
-- `/project:implement` — just run the TDD loop on existing tasks
-- `/project:verify` — just run the pre-ship gate checks
-- `/project:done` — just close the feature cycle
+```bash
+speq requirements   # just gather requirements and write a PRD
+speq enrich         # just ground an existing PRD in the codebase
+speq spec           # just generate specs from a PRD
+speq plan           # just create the task graph from specs
+speq implement      # just run the TDD loop on existing tasks
+speq verify         # just run the pre-ship gate checks
+speq done           # just close the feature cycle
+```
 
-`/project:ship` is the only command that chains them all together.
+Or use the equivalent slash commands inside Claude Code (`/requirements`,
+`/enrich`, etc.).
+
+`speq ship` (or `/ship`) is the only command that chains them all together.
+
+## What if the pipeline fails partway through?
+
+Use `speq resume` to auto-detect where you left off based on project
+artifacts (PRD files, spec files, Beads tasks). Or specify the phase
+explicitly with `speq ship --from=<phase>`:
+
+```bash
+speq ship --from=implement   # skip enrich, spec, plan
+speq ship --from=verify      # just run verify and done
+```
+
+## What does `speq init` do?
+
+Three things:
+1. Copies all 8 command prompt files to `.claude/commands/`
+2. Amends `CLAUDE.md` with speq instructions using idempotent markers
+   (`<!-- BEGIN SPEQ -->` / `<!-- END SPEQ -->`)
+3. Runs `bd init` if `.beads/` does not exist
+
+It is safe to run repeatedly — it overwrites command files with the latest
+versions and updates the speq block in CLAUDE.md without touching anything
+else.
 
 ## How do I add or modify a command?
 
