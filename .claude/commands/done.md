@@ -9,7 +9,7 @@ Follow every step in order.
 
 Run: bd list --status open
 If any tasks are open: STOP. Tell the user to finish all tasks
-and run /project:verify before running this command.
+and run /verify before running this command.
 
 Run the full test suite. If anything fails: STOP. Tell the user
 to fix all failures first.
@@ -57,6 +57,9 @@ Output a reconciliation table:
       - [bug fixes if any]
   - Verify every environment variable used anywhere in the codebase
     is documented in README.md under "Configuration"
+  - Check docs/install.md: if setup or installation changed, document the new steps
+  - Check docs/faq.md: if new user workflows or capabilities exist, add FAQ entries
+  - Check CONTRIBUTING.md: if development, testing, or PR workflow changed, update it
 
 ## Step 4 — Archive completed changes
 

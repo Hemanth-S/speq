@@ -1,20 +1,30 @@
 ---
-description: Convert PRD.md into OpenSpec files — one per capability — with mandatory security, failure, idempotency, and performance scenarios
+description: Convert a PRD file into OpenSpec files — one per capability — with mandatory security, failure, idempotency, and performance scenarios
 ---
 
-You are generating OpenSpec specification files from PRD.md.
+You are generating OpenSpec specification files from a PRD.
 Follow every step in order.
 
 ## Step 1 — Read inputs
 
-Read PRD.md fully. Pay particular attention to:
+Locate the PRD file. Check in this order:
+  1. If the user specified a filename (e.g. `/spec my-feature-prd.md`),
+     use that file.
+  2. Otherwise, look for any `prd-*.md` file in the project root. If exactly
+     one exists, use it. If multiple exist, list them and ask the user which
+     one to use.
+  3. Fall back to `PRD.md` if it exists.
+  4. If none found: stop and tell the user to create a PRD first
+     (`/requirements`) or place one in the project root.
+
+Read the PRD file fully. Pay particular attention to:
   - The Codebase Integration section (real table and API names to use in scenarios)
   - The NFRs (needed for performance scenarios)
   - The Threat Model (needed for security scenarios)
   - The Failure Modes table (needed for degradation scenarios)
 
 If the Codebase Integration section is missing or mostly empty, run
-the codebase scan from /project:enrich Step 2 before continuing.
+the codebase scan from /enrich Step 2 before continuing.
 
 ## Step 2 — Identify capabilities and confirm
 
@@ -93,4 +103,4 @@ After writing all spec files, output:
 |-----------|-------------|-----------|----------|---------|-------------|------|
 
 Tell the user: "Specs written to openspec/specs/. Review them, then run
-/project:plan — or /project:ship to continue the full pipeline."
+/plan — or /ship to continue the full pipeline."

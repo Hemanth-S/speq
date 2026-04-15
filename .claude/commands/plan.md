@@ -97,5 +97,5 @@ Cross-spec (e.g. auth blocks all other capabilities):
 Run: bd ready
 Show the full output.
 
-Tell the user: "Task graph created. Run /project:implement to begin —
-or /project:ship is already handling this if you used that command."
+Tell the user: "Task graph created. Run /implement to begin —
+or /ship is already handling this if you used that command."

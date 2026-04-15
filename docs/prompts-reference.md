@@ -13,7 +13,7 @@ service boundaries from the first draft. This eliminates an entire class of
 rework that happens when a spec meets the codebase for the first time during
 implementation.
 
-## Why /project:enrich exists separately from /project:requirements
+## Why /enrich exists separately from /requirements
 
 Product and business stakeholders often produce PRDs without engineering
 input. These documents describe what the user needs but leave technical

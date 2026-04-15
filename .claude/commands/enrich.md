@@ -5,12 +5,19 @@ description: Take an existing PRD written without codebase awareness and make it
 You are grounding an existing PRD in the real codebase and filling any
 gaps before specs are generated. Follow every step in order.
 
-## Step 1 — Confirm PRD.md exists
+## Step 1 — Locate the PRD file
 
-Check that PRD.md exists in the project root.
-If it does not: stop and tell the user to place their PRD at PRD.md and re-run.
+Find the PRD to enrich. Check in this order:
+  1. If the user specified a filename (e.g. `/enrich my-feature-prd.md`),
+     use that file.
+  2. Otherwise, look for any `prd-*.md` file in the project root. If exactly
+     one exists, use it. If multiple exist, list them and ask the user which
+     one to enrich.
+  3. Fall back to `PRD.md` if it exists.
+  4. If none found: stop and tell the user to place their PRD in the project
+     root (as `prd-<feature-name>.md` or `PRD.md`) and re-run.
 
-Read PRD.md fully. While reading, note every place where:
+Read the PRD file fully. While reading, note every place where:
   - A table, collection, or field name is mentioned vaguely or is absent
   - An API endpoint is mentioned vaguely ("the user API") without a real path
   - An integration is referenced without a concrete technical anchor
@@ -53,9 +60,9 @@ Build an internal map covering:
   - Conventions: error handling, validation, logging, test patterns
   - All environment variables in use
 
-## Step 3 — Enrich PRD.md
+## Step 3 — Enrich the PRD
 
-Update PRD.md in place. Do not rewrite sections that are already complete
+Update the PRD file in place. Do not rewrite sections that are already complete
 and accurate. Add or correct only what is missing or wrong.
 
 ### 3a — Add or complete: Codebase Integration
@@ -180,4 +187,4 @@ Then list every <!-- CONFLICT --> and <!-- UNDERSPECIFIED --> comment
 and ask the user to resolve each one.
 
 If there are none: tell the user "PRD is enriched and ready.
-Run /project:spec to generate specs, or /project:ship to run the full pipeline."
+Run /spec to generate specs, or /ship to run the full pipeline."

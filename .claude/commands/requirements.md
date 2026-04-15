@@ -1,5 +1,5 @@
 ---
-description: Gather requirements via Working Backwards conversation, grounded in the existing codebase, then produce PRD.md
+description: Gather requirements via Working Backwards conversation, grounded in the existing codebase, then produce a named PRD file
 ---
 
 You are running a Working Backwards requirements session for a new feature.
@@ -64,9 +64,13 @@ When you have clear answers to all eight areas, say:
 "I have enough to write the PRD. Shall I generate it now?"
 Wait for confirmation before proceeding.
 
-## Step 3 — Write PRD.md
+## Step 3 — Write the PRD file
 
-Write PRD.md to the project root using exactly this structure.
+Generate a short, kebab-case name from the feature (e.g. `prd-webhook-delivery.md`,
+`prd-user-invite-flow.md`, `prd-billing-usage-alerts.md`). The name should be
+2-4 words that capture the core capability — not a generic label.
+
+Write the PRD to the project root using this generated filename.
 Populate every section — do not leave placeholders.
 Any value you have to assume (not stated by the user or found in code)
 must be marked: <!-- ASSUMPTION: <reasoning> — validate with stakeholder -->
@@ -160,6 +164,6 @@ using real UI or API surface from the codebase]
 - [Anything a tech lead would block the design review on]
 ---
 
-After writing PRD.md, tell the user:
-"PRD written to PRD.md. Review it, make any edits, then run
-/project:spec when ready — or /project:ship to run the full pipeline."
+After writing the PRD file, tell the user:
+"PRD written to prd-<name>.md. Review it, make any edits, then run
+/spec — or /ship to run the full pipeline."
