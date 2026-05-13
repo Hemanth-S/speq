@@ -64,8 +64,21 @@ directly. `speq init` copies them to `.claude/commands/` for you.
 | CLI command | What it does |
 |-------------|-------------|
 | `speq ship --from=<phase>` | Skip completed phases and resume from a specific point |
+| `speq ship --max-cost $X` | Halt before any step that would exceed the budget |
 | `speq resume` | Auto-detect pipeline state from project artifacts and resume |
-| `speq init` | Scaffold a project for speq (copy commands, amend CLAUDE.md, init Beads) |
+| `speq init` | Scaffold a project for speq (write `speq.config.yaml`, sync prompts, init Beads) |
+
+### Configuration & tooling
+
+| CLI command | What it does |
+|-------------|-------------|
+| `speq config` | Display or edit pipeline settings in `speq.config.yaml` |
+| `speq config migrate` | Lift pipeline keys from `CLAUDE.md` into `speq.config.yaml` |
+| `speq sync-prompts` | Materialize versioned prompts into `.claude/commands/` |
+| `speq adr add --title "..."` | Create a new draft Architecture Decision Record |
+| `speq adr list` | List all ADRs with id, status, and title |
+| `speq adr supersede <id>` | Retire an active ADR and create its successor |
+| `speq eval fixture add <path>` | Add an eval fixture (rejects credentials, enforces 1MB limit) |
 
 ## What speq enforces
 
@@ -76,6 +89,42 @@ directly. `speq init` copies them to `.claude/commands/` for you.
 3. **Acceptance criteria are cross-checked clause-by-clause before any task is closed.** The Verify sub-task re-reads GIVEN/WHEN/THEN from the spec and confirms each clause is asserted in the test.
 
 4. **Documentation is written per scenario during implementation — enforced as a hard gate in `/verify`.** Docs are not an afterthought; they are a shipping requirement.
+
+## Configuration
+
+speq is configured via `speq.config.yaml` at the project root. Settings merge
+from four levels: CLI flags > environment variables > YAML file > shipped defaults.
+
+```yaml
+pipeline:
+  caveman: true                # compressed format for specs and prompts
+
+steps:
+  spec: { model: haiku, prompt_version: v2 }
+  plan: { model: sonnet }
+  implement: { model: sonnet, impl: sequential }
+
+adr:
+  path: docs/adr               # where ADRs live
+```
+
+Per-step model routing supports Claude models (`haiku`, `sonnet`, `opus`) and
+non-Claude models (`gpt-4o-mini` via codex CLI). Shorthands resolve to exact
+snapshot IDs via the shipped `models.yaml` model card.
+
+See [docs/api.md](docs/api.md) for the full configuration reference and
+programmatic API.
+
+## Key capabilities
+
+- **Modular pipeline** — swap prompts, models, and implementations per step via config
+- **Architecture Decision Records** — generate, enforce, and supersede ADRs as pipeline gates
+- **Step-level evals** — rubric-based grading and workflow regression testing with golden fixtures
+- **Cost telemetry** — per-step token tracking, run rollups, predictive estimates, budget guardrails
+- **Model routing** — Runner abstraction (ClaudeRunner, CodexRunner) with complexity-based routing
+- **Sprint board** — self-contained HTML view of pipeline state, Beads issues, config, and cost
+- **Multi-agent implement** — opt-in fan-out via agent-teams for parallel worktree execution
+- **Durable state** — orchestrator decision logging via thrum for session-surviving resume
 
 ## Quick start
 

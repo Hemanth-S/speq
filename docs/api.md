@@ -6,7 +6,9 @@
 
 Initialise speq in the current project.
 
-- Copies all 8 command prompt files to `.claude/commands/`
+- Writes a default `speq.config.yaml` (if absent)
+- Runs `sync-prompts` to materialize versioned prompts into `.claude/commands/`
+- Reconciles caveman mode markers in `CLAUDE.md`
 - Amends `CLAUDE.md` with speq instructions using `<!-- BEGIN SPEQ -->` / `<!-- END SPEQ -->` markers
 - Runs `bd init` if `.beads/` does not exist
 
@@ -16,16 +18,15 @@ Initialise speq in the current project.
 
 ### `speq config [key] [value]`
 
-Get or set caveman mode settings. Settings are stored in the `<!-- BEGIN SPEQ -->` block of CLAUDE.md.
+Get or set pipeline settings. Settings are stored in `speq.config.yaml`.
 
 **Usage:**
-- `speq config` — display all settings
-- `speq config caveman.prd` — display a single setting
-- `speq config caveman.prd off` — set a single setting
-- `speq config caveman --all on` — set all settings at once
+- `speq config` — display all settings with their source (file/default/env)
+- `speq config steps.implement.model` — display a single setting
+- `speq config steps.implement.model haiku` — set a single setting
+- `speq config caveman --all on` — set all caveman settings at once (legacy)
 
-**Valid keys:** `caveman.prd`, `caveman.openspec`, `caveman.beads`
-**Valid values:** `on`, `off`
+Config rejects field names matching `*_secret` or `*_token` — secrets must come from environment variables.
 
 **Exit codes:**
 - `0` — success
