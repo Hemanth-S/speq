@@ -1,0 +1,21 @@
+models:
+  haiku:
+    snapshot: claude-haiku-4-5-20251001
+    runner: claude
+    capabilities: []
+  sonnet:
+    snapshot: claude-sonnet-4-7
+    runner: claude
+    capabilities: []
+  opus:
+    snapshot: claude-opus-4-6
+    runner: claude
+    capabilities: [verify-native]
+  gpt-4o-mini:
+    runner: codex
+    capabilities: []
+complexity_routing:
+  trivial: haiku
+  simple: haiku
+  standard: sonnet
+  complex: sonnet
