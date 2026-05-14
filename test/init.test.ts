@@ -16,7 +16,7 @@ afterEach(() => {
 
 describe("Copy Command Files", () => {
   describe("Fresh project with no .claude directory [P1]", () => {
-    it("creates .claude/commands/ and copies all 8 command files", () => {
+    it("creates .claude/commands/ and copies all 9 command files", () => {
       const result = copyCommandFiles(TEST_DIR);
 
       const targetDir = join(TEST_DIR, ".claude", "commands");

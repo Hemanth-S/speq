@@ -64,10 +64,18 @@ speq ship --from=implement   # skip enrich, spec, plan
 speq ship --from=verify      # just run verify and done
 ```
 
+## How do I see what's happening in my pipeline?
+
+Run `speq board` (or `/board` inside Claude Code) to render a self-contained
+HTML view at `.speq/board.html`. It shows current pipeline step, Beads issue
+cards, the active `speq.config.yaml`, and per-run cost data. The file has no
+external resources — open it offline, share it, archive it. Re-run any time
+to refresh.
+
 ## What does `speq init` do?
 
 Three things:
-1. Copies all 8 command prompt files to `.claude/commands/`
+1. Copies all 9 command prompt files to `.claude/commands/`
 2. Amends `CLAUDE.md` with speq instructions using idempotent markers
    (`<!-- BEGIN SPEQ -->` / `<!-- END SPEQ -->`)
 3. Runs `bd init` if `.beads/` does not exist

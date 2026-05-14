@@ -79,6 +79,7 @@ directly. `speq init` copies them to `.claude/commands/` for you.
 | `speq adr list` | List all ADRs with id, status, and title |
 | `speq adr supersede <id>` | Retire an active ADR and create its successor |
 | `speq eval fixture add <path>` | Add an eval fixture (rejects credentials, enforces 1MB limit) |
+| `speq board` (`/board`) | Render the sprint board (pipeline state, Beads issues, config, cost) to `.speq/board.html` |
 
 ## What speq enforces
 

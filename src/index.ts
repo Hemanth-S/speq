@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import { run } from "./cli.js";
+import { run, runBoard } from "./cli.js";
 import { init } from "./init.js";
 import { readConfig, writeConfig, formatConfig, getValidKeys } from "./config.js";
 import { runCommand, getPromptFilePath } from "./runner.js";
@@ -87,6 +87,14 @@ async function main(): Promise<void> {
     }
     console.log(formatConfig(config));
     process.exit(0);
+  }
+
+  // speq board
+  if (command === "board") {
+    const result = runBoard(process.cwd());
+    if (result.stdout) process.stdout.write(result.stdout + "\n");
+    if (result.stderr) process.stderr.write(result.stderr + "\n");
+    process.exit(result.exitCode);
   }
 
   // speq init

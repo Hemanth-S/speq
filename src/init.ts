@@ -26,6 +26,7 @@ scenario that generated it (see /implement, Step B-3).
 | /verify | Before any merge or release |
 | /done | After verify passes — closes the cycle |
 | /ship | Single command — runs enrich → spec → plan → implement → verify → done |
+| /board | Render the sprint board (pipeline state, Beads issues, config, cost) to .speq/board.html |
 
 ## Non-negotiable rules
 1. Read the codebase before writing or refining any requirements.

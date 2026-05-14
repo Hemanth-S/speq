@@ -1,5 +1,13 @@
 # Changelog
 
+## [Unreleased] - 2026-05-13
+
+### Added
+
+- `speq board` CLI command and `/board` slash command — renders the F6 sprint board (pipeline state, Beads issues, config, cost data) to `.speq/board.html`
+- `runBoard(cwd)` exported from `src/cli.ts` — programmatic entry to render the board with a configurable working directory
+- `RunOptions.cwd` on `run()` for testability when dispatching project-aware commands
+
 ## [0.2.0] - 2026-04-14
 
 ### Added

@@ -114,6 +114,19 @@ Retire an active ADR and create its successor.
 
 Copy a fixture directory into `.speq/evals/fixtures/`, excluding `.git`, `node_modules`, etc. Rejects fixtures >1MB or containing credentials.
 
+### `speq board`
+
+Render the sprint board — pipeline state, Beads issues, config, and cost data — to `.speq/board.html`. The file is self-contained (inlined CSS, no external resources) and safe to open offline.
+
+**Reads:** `speq.config.yaml`, `.speq/runs/*/summary.json`, `bd list --json` output.
+**Writes:** `.speq/board.html`.
+
+**Exit codes:**
+- `0` — board rendered successfully
+- `1` — render failed (e.g. `.speq/` is not writable). One-line error in stderr; no stack traces.
+
+Re-run after a pipeline step completes or after editing `speq.config.yaml` to refresh.
+
 ---
 
 ## Configuration
@@ -270,3 +283,11 @@ Aggregate step records into a run summary.
 
 #### `writeBoard(projectDir): void`
 Render pipeline state, Beads issues, config, and cost data to `.speq/board.html`.
+
+### CLI Dispatcher (`src/cli.ts`)
+
+#### `run(args, opts?): RunResult`
+Parse CLI arguments and execute the corresponding command. `opts.cwd` overrides the working directory for commands that touch project files (currently `board`); defaults to `process.cwd()`.
+
+#### `runBoard(cwd): RunResult`
+Render the sprint board for the given project directory. Returns `{ exitCode: 0, stdout, stderr: "" }` on success with the relative path to `board.html` in `stdout`. Errors are caught and converted to `{ exitCode: 1, stderr }` with a one-line message — no stack traces leak.
